@@ -25,28 +25,37 @@
 <?php
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $a = $_POST['a'];
-    $b = $_POST['b'];
+   if(is_numeric($_POST['a']) && is_numeric($_POST['b'])){
+        $a = $_POST['a'];
+        $b = $_POST['b'];
+        echo"a = $a<br>b = $b<br>";
 
-    $suma = $a + $b;
-    echo"suma = $suma<br>";
-    $roznica = $a - $b;
-    echo"roznica = $roznica<br>";
-    $iloczyn = $a * $b;
-    echo"iloczyn = $iloczyn<br>";
+        $suma = $a + $b;
+        echo"suma = $suma<br>";
+        $roznica = $a - $b;
+        echo"roznica = $roznica<br>";
+        $iloczyn = $a * $b;
+        echo"iloczyn = $iloczyn<br>";
 
-    if($b!=0) {
-        $iloraz = $a / $b;
-        echo"iloraz = $iloraz<br>";
-        $reszta = $a%$b;
-        echo"reszta = $reszta<br>";
-    }
-    else{
-        echo"nie mozna dzielic przez zero";
-    }
-    $potega = $a ** $b;
-    echo"potega = $potega<br>";
+        if($b!=0) {
+            $iloraz = floor($a / $b);
+            echo"iloraz = $iloraz<br>";
+            $reszta = $a%$b;
+            echo"reszta = $reszta<br>";
+        }
+        else{
+            echo"nie mozna dzielic przez zero";
+        }
+        $potega = $a ** $b;
+        echo"potega = $potega<br>";
+        }
+   else
+       echo"podane wartości muszą być liczbami!";
 }
+
+
+
+
 
 ?>
 
