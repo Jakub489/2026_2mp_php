@@ -1,36 +1,47 @@
-<!doctype html>
-<html lang="pl">
+<?php
+if(isset($_POST['komentarz'])){
+    $tekst= substr($_POST['komentarz'],0,255);
+    $tekst= strip_tags($tekst)."\n";
+    if (!$op =fopen('opinie.txt','a')){
+        echo"Błąd!.Nie możnaotworzyćplikuopinie.txt";
+    } else {
+
+if (fwrite($op, $tekst) === false) {
+    echo "Dodanie komentarza nie powiodło się";
+}
+}
+}
+?>
+<html>
 <head>
+    <title>Opinieużytkowników</title>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Zadanie T80 - komentarze do pliku</title>
 </head>
 <body>
-
-<?php
-$plik = "opinie.txt";
-
-if (isset($_POST["opinia"])) {
-    file_put_contents($plik, trim($_POST["opinia"]) . "\n", FILE_APPEND);
-}
-
-$opinie = file_exists($plik) ? file($plik) : [];
-?>
-
-<h1>Dodaj opinię</h1>
-
-<form method="post">
-    <textarea name="opinia" placeholder="Wpisz swoją opinię..." required></textarea>
-    <button type="submit">Wyślij</button>
+<div>
+    <form action="index.php" method="post">
+        <p><b>Dodaj swój komentarz na temat globalnego ocieplenia</b><br>
+            (Maksymalnie 255 znaków)</p>
+        <textarea name="komentarz" rows="6" cols="50"
+                  wrap="virtual"></textarea><br>
+        <input type="submit" value="Wyślij">
+</div>
 </form>
+<b>Dodane opinie:</b>
+<div>
+    <?php
+    $opinie = '';
+    if( le_exists('./opinie.txt')) {
+        $opinie = le_get_contents('./opinie.txt');
+        $opinie = nl2br($opinie);
+    }
 
-<h2>Opinie użytkowników:</h2>
-
-<?php foreach ($opinie as $opinia): ?>
-    <p><?= htmlspecialchars($opinia) ?></p>
-<?php endforeach; ?>
-
+if ($opinie != '') {
+    echo $opinie;
+} else {
+    echo"Brakopinii natemat zmian klimatu.";
+}
+?>
+</div>
 </body>
 </html>
